@@ -1,5 +1,7 @@
 package com.concesionario.concesionario.dto;
 
+import java.util.List;
+
 import com.concesionario.concesionario.entity.RentEntity;
 import com.concesionario.concesionario.entity.UserEntity;
 
@@ -9,9 +11,9 @@ public class CarDto {
 	private String model;
 	private String brand;
 	private UserEntity user;
-	private RentEntity rent;
+	private List<RentEntity> rent;
 	
-	public CarDto(Integer id, String model, String brand, UserEntity user, RentEntity rent) {
+	public CarDto(Integer id, String model, String brand, UserEntity user, List<RentEntity> rent) {
 		this.id = id;
 		this.model = model;
 		this.brand = brand;
@@ -78,14 +80,14 @@ public class CarDto {
 	/**
 	 * @return the rent
 	 */
-	public RentEntity getRent() {
+	public List<RentEntity> getRent() {
 		return rent;
 	}
 
 	/**
 	 * @param rent the rent to set
 	 */
-	public void setRent(RentEntity rent) {
+	public void setRent(List<RentEntity> rent) {
 		this.rent = rent;
 	}
 	

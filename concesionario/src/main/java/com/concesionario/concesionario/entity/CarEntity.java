@@ -1,5 +1,7 @@
 package com.concesionario.concesionario.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+
 
 @Entity
 public class CarEntity {
@@ -17,19 +21,19 @@ public class CarEntity {
 	private String brand;
 	@ManyToOne(fetch=FetchType.LAZY)
 	private UserEntity user;
-	@OneToMany(fetch = FetchType.LAZY)
-	private RentEntity rent;
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "rent")
+	private List<RentEntity> rent;
 
 	/**
 	 * @return the rent
 	 */
-	public RentEntity getRent() {
+	public List<RentEntity> getRent() {
 		return rent;
 	}
 	/**
 	 * @param rent the rent to set
 	 */
-	public void setRent(RentEntity rent) {
+	public void setRent(List<RentEntity> rent) {
 		this.rent = rent;
 	}
 	/**

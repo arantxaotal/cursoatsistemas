@@ -1,12 +1,14 @@
 package com.concesionario.concesionario.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
 
 @Entity
 public class UserEntity {
@@ -15,20 +17,20 @@ public class UserEntity {
 	private Integer id;
 	private String name;
 	@OneToMany(fetch=FetchType.LAZY)
-	private CarEntity car;
-	@ManyToOne(fetch = FetchType.LAZY)
-	private RentEntity rent;
+	private List<CarEntity> car;
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<RentEntity> rent;
 
 	/**
 	 * @return the rent
 	 */
-	public RentEntity getRent() {
+	public List<RentEntity> getRent() {
 		return rent;
 	}
 	/**
 	 * @param rent the rent to set
 	 */
-	public void setRent(RentEntity rent) {
+	public void setRent(List<RentEntity> rent) {
 		this.rent = rent;
 	}
 	/**
@@ -58,14 +60,14 @@ public class UserEntity {
 	/**
 	 * @return the car
 	 */
-	public CarEntity getCar() {
+	public List<CarEntity> getCar() {
 		return car;
 	}
 	/**
 	 * @param car the car to set
 	 */
-	public void setCar(CarEntity car) {
-		this.car = car;
+	public void setCar(List<CarEntity> car) {
+		 this.car=car;
 	}
 
 }
