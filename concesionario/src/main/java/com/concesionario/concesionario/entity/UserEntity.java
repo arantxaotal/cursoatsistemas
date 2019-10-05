@@ -16,9 +16,9 @@ public class UserEntity {
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	@OneToMany(fetch=FetchType.LAZY)
+	@OneToMany(fetch=FetchType.LAZY,mappedBy = "user")
 	private List<CarEntity> car;
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
 	private List<RentEntity> rent;
 
 	/**
