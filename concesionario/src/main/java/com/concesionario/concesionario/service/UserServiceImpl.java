@@ -1,5 +1,7 @@
 package com.concesionario.concesionario.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,8 +21,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserEntity getById(Integer id) {
-		return userrepository.getOne(id);
+	public Optional<UserEntity> getById(Integer id) {
+		return userrepository.findById(id);
 	}
 
 	@Override

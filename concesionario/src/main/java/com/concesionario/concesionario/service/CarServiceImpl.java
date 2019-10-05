@@ -1,5 +1,7 @@
 package com.concesionario.concesionario.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +20,8 @@ public class CarServiceImpl implements CarService{
 	}
 
 	@Override
-	public CarEntity getById(Integer id) {
-		return carrepository.getOne(id);
+	public Optional<CarEntity> getById(Integer id) {
+		return carrepository.findById(id);
 	}
 
 	@Override
@@ -36,6 +38,17 @@ public class CarServiceImpl implements CarService{
 	@Override
 	public void deleteById(Integer id) {
 		carrepository.deleteById(id);
+	}
+
+	@Override
+	public double getallbenefits(Integer id) {
+		Optional<CarEntity>carEntity=carrepository.findById(id);
+		double benefit=0;
+		int n= carEntity.get().getRent().size();
+		for (int i = 0; i <n ; i++) {
+			benefit+=carEntity.get().getRent().get(i).getPrice();
+		}
+		return benefit;
 	}
 
 }

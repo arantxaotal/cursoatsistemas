@@ -1,5 +1,7 @@
 package com.concesionario.concesionario.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +20,8 @@ public class RentServiceImpl implements RentService {
 	}
 
 	@Override
-	public RentEntity getById(Integer id) {
-		return rentrepository.getOne(id);
+	public Optional<RentEntity> getById(Integer id) {
+		return rentrepository.findById(id);
 	}
 
 	@Override
