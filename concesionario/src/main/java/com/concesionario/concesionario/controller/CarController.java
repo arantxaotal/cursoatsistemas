@@ -1,5 +1,6 @@
 package com.concesionario.concesionario.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,17 @@ public class CarController {
 		car= dtotocarService.map(cardto);
 		carService.save(car);
 	}
+	@GetMapping
+	public List<CarDto> getAll()
+	{	List<CarEntity> carEntity=new ArrayList<CarEntity>();
+		carEntity=carService.getAll();
+		List<CarDto> dto = new ArrayList<CarDto>();
+		for (int i = 0; i < carEntity.size(); i++) {
+
+			dto.add( cartodtoService.map(carEntity.get(i)));
+		}
+		return dto;
+	}	
 	@GetMapping("/{id}")
 	public CarDto getOne(@PathVariable("id") Integer id) throws NotFoundException
 	{
@@ -59,7 +71,7 @@ public class CarController {
 		car= dtotocarService.map(cardto);
 		carService.update(car);
 	}
-	@DeleteMapping
+	@DeleteMapping("/{id}")
 	public void deleteById(@PathVariable("id")Integer id)
 	{
 		carService.deleteById(id);

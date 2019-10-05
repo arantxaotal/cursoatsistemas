@@ -1,6 +1,8 @@
 package com.concesionario.concesionario.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -19,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.concesionario.concesionario.dto.RentDto;
+import com.concesionario.concesionario.entity.CarEntity;
 import com.concesionario.concesionario.entity.RentEntity;
+import com.concesionario.concesionario.service.CarService;
 import com.concesionario.concesionario.service.RentService;
 import com.concesionario.concesionario.service.mapper.DtotoRent;
 import com.concesionario.concesionario.service.mapper.RenttoDto;
@@ -29,9 +33,11 @@ import javassist.NotFoundException;
 @RestController
 @RequestMapping("/car/{id}/rent")
 public class RentController {
+	@Autowired private CarService carService;
 	@Autowired private RentService rentService;
 	@Autowired private RenttoDto renttodtoService;
 	@Autowired private DtotoRent dtotorentService;
+	
 	@PostMapping
 	public void save(@RequestBody @Valid RentDto rentdto)
 	{
@@ -39,31 +45,26 @@ public class RentController {
 		rent= dtotorentService.map(rentdto);
 		rentService.save(rent);
 	}
-	@GetMapping("/{id}")
-	public RentDto getById(@PathVariable("id") Integer id) throws NotFoundException
-	{
-		RentEntity rent= new RentEntity();
-		rent= rentService.getById(id).orElseThrow(()->new NotFoundException("Usuario no encontrado Error-404"));
-		return renttodtoService.map(rent);
-	}
 	@GetMapping
-	public Page<RentDto> getAll(@RequestParam(name="page",required=false,defaultValue="0")Integer page,
-			@RequestParam(name="size",required=false,defaultValue="15")Integer size)
+	public RentDto getById(@PathVariable("id") Integer id,@PathVariable("idrent")Integer idrent)
 	{
-	    Pageable pageable= PageRequest.of(page,size);
-		Page<RentDto>rent=rentService.getAll(pageable).map(x-> renttodtoService.map(x));
-		return rent;
+		List<RentEntity> rent= new ArrayList<RentEntity>();
+		rent= carService.getById(id).get().getRent();
+		return renttodtoService.map(rent.get(idrent));
+
 	}
-	@PutMapping
-	public void update(@PathVariable("id") Integer id,@RequestBody RentDto rentdto)
+	@PutMapping("/{idrent}")
+	public void update(@PathVariable("id") Integer id,@PathVariable("idrent")Integer idrent,@RequestBody RentDto rentdto)
 	{
-		RentEntity rent= new RentEntity();
-		rent.setId(id);
-		rent= dtotorentService.map(rentdto);
-		rentService.update(rent);
+		List<RentEntity> rent= new ArrayList<RentEntity>();
+		rent= carService.getById(id).get().getRent();
+		RentEntity rentEntity = new RentEntity();
+		rentEntity.setId(rent.get(idrent).getId());
+		rentEntity=dtotorentService.map(rentdto);
+		rentService.update(rentEntity);
 	}
 	@DeleteMapping
-	public void deleteById(@PathVariable("id")Integer id)
+	public void deleteById(@PathVariable("idrent")Integer id)
 	{
 		rentService.deleteById(id);
 	}

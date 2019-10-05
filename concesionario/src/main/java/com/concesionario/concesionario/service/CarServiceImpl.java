@@ -1,5 +1,6 @@
 package com.concesionario.concesionario.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class CarServiceImpl implements CarService{
 	}
 
 	@Override
-	public Page<CarEntity> getAll(Pageable page) {
-		return carrepository.findAll(page);
+	public List<CarEntity> getAll() {
+		return carrepository.findAll();
 	}
 
 	@Override
