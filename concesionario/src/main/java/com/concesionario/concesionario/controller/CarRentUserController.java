@@ -15,43 +15,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.concesionario.concesionario.dto.CarDto;
 import com.concesionario.concesionario.dto.UserDto;
 import com.concesionario.concesionario.entity.CarEntity;
+import com.concesionario.concesionario.entity.RentEntity;
 import com.concesionario.concesionario.entity.UserEntity;
 import com.concesionario.concesionario.service.CarService;
-import com.concesionario.concesionario.service.UserService;
-import com.concesionario.concesionario.service.mapper.CarttoDto;
-import com.concesionario.concesionario.service.mapper.DtotoCar;
 import com.concesionario.concesionario.service.mapper.DtotoUser;
 import com.concesionario.concesionario.service.mapper.UsertoDto;
 
 @RestController
-@RequestMapping("/car/{id}/user")
-public class CarUserController {
+@RequestMapping("/car/{id}/rent/{idrent}/user")
+public class CarRentUserController {
 	@Autowired private CarService carService;
 	@Autowired private UsertoDto usertodtoService;
 	@Autowired private DtotoUser dtotouserService;
 	@PostMapping
-	public void save(@PathVariable("id") Integer id,@RequestBody @Valid UserDto userdto)
+	public void save(@PathVariable("id") Integer id,@PathVariable("idrent") Integer idrent,@RequestBody @Valid UserDto userdto)
 	{
-		carService.getById(id).get().setUser(dtotouserService.map(userdto));
+		carService.getById(id).get().getRent().get(idrent).setUser(dtotouserService.map(userdto));
 	}
 	@GetMapping
-	public UserDto getAll(@PathVariable("id") Integer id,@RequestParam(name="page",required=false,defaultValue="0")Pageable page,
-			@RequestParam(name="size",required=false,defaultValue="15")Integer size)
+	public UserDto getAll(@PathVariable("id") Integer id,@PathVariable("idrent") Integer idrent)
 	{	
-		return usertodtoService.map(carService.getById(id).get().getUser());
+		
+		return usertodtoService.map(carService.getById(id).get().getRent().get(idrent).getUser());
 	}
-	@PutMapping
-	public void update(@PathVariable("id") Integer id,@RequestBody UserDto userdto)
+	@PutMapping("/{iduser}")
+	public void update(@PathVariable("id")Integer id,
+   @PathVariable("idrent") Integer idrent,@PathVariable("iduser")Integer iduser,@RequestBody UserDto userdto)
 	{
-		carService.getById(id).get().setUser(dtotouserService.map(userdto));
+		UserEntity userEntity = new UserEntity();
+		userEntity=dtotouserService.map(userdto);
+		carService.getById(id).get().getRent().get(idrent).setUser(userEntity);
 		
 	}
-	@DeleteMapping
-	public void deleteById(@PathVariable("id")Integer id)
+	@DeleteMapping("/{iduser}")
+	public void deleteById(@PathVariable("id")
+	Integer id,@PathVariable("idrent")Integer idrent,@PathVariable("iduser")Integer iduser)
 	{
-		carService.getById(id).get().setUser(new UserEntity());
+		carService.getById(id).get().getRent().get(idrent).setUser(new UserEntity());
 	}
 }

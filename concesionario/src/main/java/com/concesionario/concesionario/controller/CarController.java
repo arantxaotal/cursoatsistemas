@@ -33,7 +33,6 @@ import javassist.NotFoundException;
 @RestController
 @RequestMapping("/car")
 public class CarController {
-	@Autowired private RentService rentservice;
 	@Autowired private CarService carService;
 	@Autowired private CarttoDto cartodtoService;
 	@Autowired private DtotoCar dtotocarService;
@@ -45,15 +44,10 @@ public class CarController {
 		carService.save(car);
 	}
 	@GetMapping
-	public List<CarDto> getAll()
-	{	List<CarEntity> carEntity=new ArrayList<CarEntity>();
-		carEntity=carService.getAll();
-		List<CarDto> dto = new ArrayList<CarDto>();
-		for (int i = 0; i < carEntity.size(); i++) {
-
-			dto.add( cartodtoService.map(carEntity.get(i)));
-		}
-		return dto;
+	public Page<CarDto> getAll(@RequestParam(name="page",required=false,defaultValue="0")Pageable page,
+			@RequestParam(name="size",required=false,defaultValue="15")Integer size)
+	{	
+		return carService.getAll(page).map(x-> cartodtoService.map(x));
 	}	
 	@GetMapping("/{id}")
 	public CarDto getOne(@PathVariable("id") Integer id) throws NotFoundException
@@ -75,10 +69,5 @@ public class CarController {
 	public void deleteById(@PathVariable("id")Integer id)
 	{
 		carService.deleteById(id);
-	}
-	@GetMapping("/benefits")
-	public double getallbenefits(@PathVariable("id")Integer id)
-	{
-		return carService.getallbenefits(id);
 	}
 }

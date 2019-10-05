@@ -26,8 +26,8 @@ public class CarServiceImpl implements CarService{
 	}
 
 	@Override
-	public List<CarEntity> getAll() {
-		return carrepository.findAll();
+	public Page<CarEntity> getAll(Pageable page) {
+		return carrepository.findAll(page);
 	}
 
 	@Override

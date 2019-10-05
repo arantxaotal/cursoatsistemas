@@ -13,7 +13,7 @@ public interface CarService {
 	
 	public void save(CarEntity car);
 	public Optional<CarEntity> getById(Integer id);
-	public List<CarEntity> getAll();
+	public Page<CarEntity> getAll(Pageable page);
 	public void update(CarEntity car);
 	public void deleteById(Integer id);
 	public double getallbenefits(Integer id);

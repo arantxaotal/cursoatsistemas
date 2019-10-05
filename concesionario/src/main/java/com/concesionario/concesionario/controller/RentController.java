@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.concesionario.concesionario.dto.CarDto;
 import com.concesionario.concesionario.dto.RentDto;
+import com.concesionario.concesionario.dto.UserDto;
 import com.concesionario.concesionario.entity.CarEntity;
 import com.concesionario.concesionario.entity.RentEntity;
 import com.concesionario.concesionario.service.CarService;
@@ -31,7 +33,7 @@ import com.concesionario.concesionario.service.mapper.RenttoDto;
 import javassist.NotFoundException;
 
 @RestController
-@RequestMapping("/car/{id}/rent")
+@RequestMapping("/rent")
 public class RentController {
 	@Autowired private CarService carService;
 	@Autowired private RentService rentService;
@@ -46,25 +48,27 @@ public class RentController {
 		rentService.save(rent);
 	}
 	@GetMapping
-	public RentDto getById(@PathVariable("id") Integer id,@PathVariable("idrent")Integer idrent)
-	{
-		List<RentEntity> rent= new ArrayList<RentEntity>();
-		rent= carService.getById(id).get().getRent();
-		return renttodtoService.map(rent.get(idrent));
-
+	public Page<RentDto> getAll(@RequestParam(name="page",required=false,defaultValue="0")Pageable page,
+			@RequestParam(name="size",required=false,defaultValue="15")Integer size)
+	{	
+		return rentService.getAll(page).map(x-> renttodtoService.map(x));
 	}
-	@PutMapping("/{idrent}")
-	public void update(@PathVariable("id") Integer id,@PathVariable("idrent")Integer idrent,@RequestBody RentDto rentdto)
+	@GetMapping("/{id}")
+	public RentDto getRent(@PathVariable("id")Integer id)
 	{
-		List<RentEntity> rent= new ArrayList<RentEntity>();
-		rent= carService.getById(id).get().getRent();
+		return renttodtoService.map(rentService.getById(id).get());
+	}
+	@PutMapping("/{id}")
+	public void update(@PathVariable("id") Integer id,@RequestBody RentDto rentdto)
+	{
+
 		RentEntity rentEntity = new RentEntity();
-		rentEntity.setId(rent.get(idrent).getId());
+		rentEntity.setId(id);
 		rentEntity=dtotorentService.map(rentdto);
 		rentService.update(rentEntity);
 	}
 	@DeleteMapping
-	public void deleteById(@PathVariable("idrent")Integer id)
+	public void deleteById(@PathVariable("id")Integer id)
 	{
 		rentService.deleteById(id);
 	}
