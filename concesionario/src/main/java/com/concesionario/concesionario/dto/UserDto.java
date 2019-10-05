@@ -12,7 +12,6 @@ public class UserDto {
 	private List<CarEntity> car;
 	private List<RentEntity> rent;
 	public UserDto(Integer id, String name, List<CarEntity> car, List<RentEntity> rent) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.car = car;

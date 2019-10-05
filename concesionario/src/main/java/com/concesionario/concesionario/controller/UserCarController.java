@@ -28,7 +28,7 @@ import com.concesionario.concesionario.service.mapper.CarttoDto;
 import com.concesionario.concesionario.service.mapper.DtotoCar;
 
 @RestController
-@RequestMapping("/user/{id}/car/")
+@RequestMapping("/user/{id}/car")
 public class UserCarController {
 	@Autowired private CarService carService;
 	@Autowired private CarttoDto cartodtoService;
