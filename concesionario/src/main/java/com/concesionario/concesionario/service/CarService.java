@@ -17,6 +17,7 @@ public interface CarService {
 	public void update(CarEntity car);
 	public void deleteById(Integer id);
 	public double getallbenefits(Integer id);
+	public RentEntity getonerent(Integer idrent, Integer id);
 	
 
 }

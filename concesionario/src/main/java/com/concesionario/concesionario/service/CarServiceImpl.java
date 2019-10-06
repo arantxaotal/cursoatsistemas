@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.concesionario.concesionario.entity.CarEntity;
+import com.concesionario.concesionario.entity.RentEntity;
 import com.concesionario.concesionario.repository.CarRepository;
 
 @Service
@@ -50,6 +51,12 @@ public class CarServiceImpl implements CarService{
 			benefit+=carEntity.get().getRent().get(i).getPrice();
 		}
 		return benefit;
+	}
+
+	@Override
+	public RentEntity getonerent(Integer idrent, Integer id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

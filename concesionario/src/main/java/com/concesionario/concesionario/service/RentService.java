@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.concesionario.concesionario.entity.RentEntity;
+import com.concesionario.concesionario.exception.NotFoundException;
 
 public interface RentService {
 	public void save(RentEntity rent);
@@ -13,5 +14,7 @@ public interface RentService {
 	public Page<RentEntity> getAll( Pageable page);
 	public void update(RentEntity rent);
 	public void deleteById(Integer id);
+	public RentEntity saverentcar(RentEntity rent,Integer idcar) ;
+	public RentEntity saverentuser(RentEntity rent,Integer iduser);
 
 }

@@ -42,13 +42,10 @@ public class CarRentController {
 	@Autowired private MapperService<RentEntity, RentDto>renttodtoService;
 	@Autowired private MapperService<RentDto, RentEntity> dtotorentService;
 	@Autowired private MapperService<CarEntity,CarDto> carttodtoService;
+	@Autowired private MapperService<CarDto,CarEntity> dtotocarService;
 	@PostMapping
-	public CarDto save(@PathVariable("id") Integer id,@RequestBody @Valid RentDto rentdto)
-	{
-		
-		rentService.save(dtotorentService.map(rentdto));
-		carService.getById(id).get().getRent().add(dtotorentService.map(rentdto));
-		return carttodtoService.map(carService.getById(id).get());
+	public RentDto save(@PathVariable("id") Integer id,@RequestBody @Valid RentDto rentdto)  {
+		return renttodtoService.map(rentService.saverentcar(dtotorentService.map(rentdto),id));
 	}
 	@GetMapping
 	public List<RentDto> getAll(@PathVariable("id") Integer id)
@@ -64,7 +61,7 @@ public class CarRentController {
 	@GetMapping("/{idrent}")
 	public RentDto getOne(@PathVariable("idrent") Integer idrent,@PathVariable("id")Integer id) 
 	{
-		return renttodtoService.map(carService.getById(id).get().getRent().get(idrent));
+		return renttodtoService.map(carService.getonerent(idrent,id));
 
 	}
 	@PutMapping("/{idrent}")
