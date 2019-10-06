@@ -7,20 +7,22 @@ import com.concesionario.concesionario.entity.CarEntity;
 import com.concesionario.concesionario.entity.UserEntity;
 
 public class RentDto {
+	private Integer id;
 	private UserEntity user; 
 	private CarEntity car;
 	private LocalTime initdate;
 	private LocalTime enddate;
 	private double price;
 	
-	public RentDto(UserEntity user, CarEntity car, LocalTime initdate, LocalTime enddate, double price) {
-		
+	public RentDto(Integer id,UserEntity user, CarEntity car, LocalTime initdate, LocalTime enddate, double price) {
+		this.id=id;
 		this.user = user;
 		this.car = car;
 		this.initdate = initdate;
 		this.enddate = enddate;
 		this.price = price;
 	}
+	
 	/**
 	 * @return the user
 	 */
@@ -80,6 +82,14 @@ public class RentDto {
 	 */
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 }

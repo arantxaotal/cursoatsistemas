@@ -28,6 +28,7 @@ import com.concesionario.concesionario.entity.RentEntity;
 import com.concesionario.concesionario.service.CarService;
 import com.concesionario.concesionario.service.RentService;
 import com.concesionario.concesionario.service.mapper.DtotoRent;
+import com.concesionario.concesionario.service.mapper.MapperService;
 import com.concesionario.concesionario.service.mapper.RenttoDto;
 
 import javassist.NotFoundException;
@@ -37,8 +38,8 @@ import javassist.NotFoundException;
 public class RentController {
 	@Autowired private CarService carService;
 	@Autowired private RentService rentService;
-	@Autowired private RenttoDto renttodtoService;
-	@Autowired private DtotoRent dtotorentService;
+	@Autowired private MapperService<RentEntity, RentDto> renttodtoService;
+	@Autowired private MapperService<RentDto, RentEntity> dtotorentService;
 	
 	@PostMapping
 	public void save(@RequestBody @Valid RentDto rentdto)

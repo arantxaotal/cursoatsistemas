@@ -1,5 +1,6 @@
 package com.concesionario.concesionario.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.concesionario.concesionario.entity.CarEntity;
@@ -9,8 +10,8 @@ import com.concesionario.concesionario.entity.RentEntity;
 public class UserDto {
 	private Integer id;
 	private String name;
-	private List<CarEntity> car;
-	private List<RentEntity> rent;
+	private List<CarEntity> car=new ArrayList<CarEntity>();
+	private List<RentEntity> rent=new ArrayList<RentEntity>();
 	public UserDto(Integer id, String name, List<CarEntity> car, List<RentEntity> rent) {
 		this.id = id;
 		this.name = name;

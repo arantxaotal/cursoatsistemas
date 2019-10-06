@@ -23,6 +23,7 @@ import com.concesionario.concesionario.entity.UserEntity;
 import com.concesionario.concesionario.service.CarService;
 import com.concesionario.concesionario.service.mapper.DtotoRent;
 import com.concesionario.concesionario.service.mapper.DtotoUser;
+import com.concesionario.concesionario.service.mapper.MapperService;
 import com.concesionario.concesionario.service.mapper.RenttoDto;
 import com.concesionario.concesionario.service.mapper.UsertoDto;
 
@@ -30,8 +31,8 @@ import com.concesionario.concesionario.service.mapper.UsertoDto;
 @RequestMapping("/car/{id}/user/{iduser}/rent")
 public class CarUserRentController {
 	@Autowired private CarService carService;
-	@Autowired private RenttoDto renttodtoService;
-	@Autowired private DtotoRent dtotorentService;
+	@Autowired private MapperService<RentEntity, RentDto> renttodtoService;
+	@Autowired private MapperService<RentDto, RentEntity>dtotorentService;
 	@PostMapping
 	public void save(@PathVariable("id") Integer id,@PathVariable("iduser") Integer iduser,@RequestBody @Valid RentDto rentdto)
 	{

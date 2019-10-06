@@ -1,7 +1,9 @@
 package com.concesionario.concesionario.controller;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -27,6 +29,7 @@ import com.concesionario.concesionario.service.RentService;
 import com.concesionario.concesionario.service.mapper.CarttoDto;
 import com.concesionario.concesionario.service.mapper.DtotoCar;
 import com.concesionario.concesionario.service.mapper.DtotoRent;
+import com.concesionario.concesionario.service.mapper.MapperService;
 import com.concesionario.concesionario.service.mapper.RenttoDto;
 
 import javassist.NotFoundException;
@@ -36,12 +39,16 @@ import javassist.NotFoundException;
 public class CarRentController {
 	@Autowired private CarService carService;
 	@Autowired private RentService rentService;
-	@Autowired private RenttoDto renttodtoService;
-	@Autowired private DtotoRent dtotorentService;
+	@Autowired private MapperService<RentEntity, RentDto>renttodtoService;
+	@Autowired private MapperService<RentDto, RentEntity> dtotorentService;
+	@Autowired private MapperService<CarEntity,CarDto> carttodtoService;
 	@PostMapping
-	public void save(@PathVariable("id") Integer id,@RequestBody @Valid RentDto rentdto)
+	public CarDto save(@PathVariable("id") Integer id,@RequestBody @Valid RentDto rentdto)
 	{
+		
+		rentService.save(dtotorentService.map(rentdto));
 		carService.getById(id).get().getRent().add(dtotorentService.map(rentdto));
+		return carttodtoService.map(carService.getById(id).get());
 	}
 	@GetMapping
 	public List<RentDto> getAll(@PathVariable("id") Integer id)
@@ -52,12 +59,13 @@ public class CarRentController {
 			rentlistDtos.add(renttodtoService.map(carService.getById(id).get().getRent().get(i)));
 		}
 		return rentlistDtos;
+		
 	}
 	@GetMapping("/{idrent}")
 	public RentDto getOne(@PathVariable("idrent") Integer idrent,@PathVariable("id")Integer id) 
 	{
 		return renttodtoService.map(carService.getById(id).get().getRent().get(idrent));
-		
+
 	}
 	@PutMapping("/{idrent}")
 	public void update(@PathVariable("id") Integer id,@PathVariable("idrent")Integer idrent,@RequestBody RentDto rentdto)

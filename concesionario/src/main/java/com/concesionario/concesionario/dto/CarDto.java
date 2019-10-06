@@ -1,5 +1,6 @@
 package com.concesionario.concesionario.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.concesionario.concesionario.entity.RentEntity;
@@ -11,7 +12,7 @@ public class CarDto {
 	private String model;
 	private String brand;
 	private UserEntity user;
-	private List<RentEntity> rent;
+	private List<RentEntity> rent=new ArrayList<RentEntity>();
 	
 	public CarDto(Integer id, String model, String brand, UserEntity user, List<RentEntity> rent) {
 		this.id = id;

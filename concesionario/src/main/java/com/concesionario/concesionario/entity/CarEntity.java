@@ -1,5 +1,6 @@
 package com.concesionario.concesionario.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -24,7 +25,7 @@ public class CarEntity {
 	@ManyToOne(fetch=FetchType.LAZY)
 	private UserEntity user;
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "car")
-	private List<RentEntity> rent;
+	private List<RentEntity> rent=new ArrayList<RentEntity>();
 
 	/**
 	 * @return the rent

@@ -23,14 +23,15 @@ import com.concesionario.concesionario.service.UserService;
 import com.concesionario.concesionario.service.mapper.CarttoDto;
 import com.concesionario.concesionario.service.mapper.DtotoCar;
 import com.concesionario.concesionario.service.mapper.DtotoRent;
+import com.concesionario.concesionario.service.mapper.MapperService;
 import com.concesionario.concesionario.service.mapper.RenttoDto;
 
 @RestController
 @RequestMapping("/user/{id}/rent/{idrent}/car")
 public class UserRentCarController {
 	@Autowired private UserService userService;
-	@Autowired private CarttoDto cartodtoService;
-	@Autowired private DtotoCar dtotocarService;
+	@Autowired private MapperService<CarEntity, CarDto> cartodtoService;
+	@Autowired private MapperService<CarDto, CarEntity> dtotocarService;
 	@PostMapping
 	public void save(@PathVariable("id") Integer id,@PathVariable("idrent") Integer idrent,@RequestBody @Valid CarDto cardto)
 	{
@@ -42,13 +43,13 @@ public class UserRentCarController {
 		return cartodtoService.map(userService.getById(id).get().getRent().get(idrent).getCar());
 
 	}
-	@PutMapping("/{idrent}")
+	@PutMapping("/{idcar}")
 	public void update(@PathVariable("id")Integer id,
    @PathVariable("idrent") Integer idrent,@PathVariable("idcar")Integer idcar,@RequestBody CarDto carDto)
 	{
 		userService.getById(id).get().getRent().get(idrent).setCar(dtotocarService.map(carDto));
 	}
-	@DeleteMapping("/{idrent}")
+	@DeleteMapping("/{idcar}")
 	public void deleteById(@PathVariable("id")
 	Integer id,@PathVariable("idcar")Integer idcar,@PathVariable("idrent")Integer idrent)
 	{

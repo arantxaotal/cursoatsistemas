@@ -24,14 +24,15 @@ import com.concesionario.concesionario.service.RentService;
 import com.concesionario.concesionario.service.mapper.CarttoDto;
 import com.concesionario.concesionario.service.mapper.DtotoCar;
 import com.concesionario.concesionario.service.mapper.DtotoRent;
+import com.concesionario.concesionario.service.mapper.MapperService;
 import com.concesionario.concesionario.service.mapper.RenttoDto;
 
 @RestController
 @RequestMapping("/rent/{id}/user/{iduser}/car")
 public class RentUserCarController {
 	@Autowired private RentService rentService;
-	@Autowired private CarttoDto cartodtoService;
-	@Autowired private DtotoCar dtotocarService;
+	@Autowired private MapperService<CarEntity, CarDto> cartodtoService;
+	@Autowired private MapperService<CarDto, CarEntity> dtotocarService;
 	@PostMapping
 	public void save(@PathVariable("id") Integer id,@PathVariable("iduser") Integer iduser,@RequestBody @Valid CarDto cardto)
 	{

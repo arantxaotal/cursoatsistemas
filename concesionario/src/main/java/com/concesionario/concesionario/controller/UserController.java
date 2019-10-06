@@ -24,6 +24,7 @@ import com.concesionario.concesionario.entity.UserEntity;
 import com.concesionario.concesionario.service.RentService;
 import com.concesionario.concesionario.service.UserService;
 import com.concesionario.concesionario.service.mapper.DtotoUser;
+import com.concesionario.concesionario.service.mapper.MapperService;
 import com.concesionario.concesionario.service.mapper.UsertoDto;
 
 
@@ -32,8 +33,8 @@ import com.concesionario.concesionario.service.mapper.UsertoDto;
 @RequestMapping("/user")
 public class UserController {
 	@Autowired private UserService userService;
-	@Autowired private UsertoDto usertodtoService;
-	@Autowired private DtotoUser dtotouserService;
+	@Autowired private MapperService<UserEntity, UserDto> usertodtoService;
+	@Autowired private MapperService<UserDto, UserEntity> dtotouserService;
 	@PostMapping
 	
 	public void save(@RequestBody @Valid UserDto userdto)

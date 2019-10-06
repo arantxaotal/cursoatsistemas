@@ -10,7 +10,7 @@ public class RenttoDto implements MapperService<RentEntity, RentDto>{
 
 	@Override
 	public RentDto map(RentEntity tipo) {
-		return new RentDto(tipo.getUser(), tipo.getCar(), tipo.getInitdate(), tipo.getEnddate(), tipo.getPrice());
+		return new RentDto(tipo.getId(),tipo.getUser(), tipo.getCar(), tipo.getInitdate(), tipo.getEnddate(), tipo.getPrice());
 	}
 
 }

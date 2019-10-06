@@ -26,18 +26,20 @@ import com.concesionario.concesionario.service.CarService;
 import com.concesionario.concesionario.service.UserService;
 import com.concesionario.concesionario.service.mapper.CarttoDto;
 import com.concesionario.concesionario.service.mapper.DtotoCar;
+import com.concesionario.concesionario.service.mapper.MapperService;
 
 @RestController
 @RequestMapping("/user/{id}/car")
 public class UserCarController {
 	@Autowired private CarService carService;
-	@Autowired private CarttoDto cartodtoService;
-	@Autowired private DtotoCar dtotocarService;
+	@Autowired private MapperService<CarEntity, CarDto> cartodtoService;
+	@Autowired private MapperService<CarDto, CarEntity> dtotocarService;
 	@Autowired private UserService userService;
 	@PostMapping
 	public void save(@PathVariable("id") Integer id,@RequestBody @Valid CarDto cardto)
 	{
 		userService.getById(id).get().getCar().add(dtotocarService.map(cardto));
+		
 	}
 	@GetMapping
 	public List<CarDto> getAll(@PathVariable("id") Integer id)
@@ -52,7 +54,7 @@ public class UserCarController {
 	@GetMapping("/{idcar}")
 	public CarDto getOne(@PathVariable("idcar") Integer idcar,@RequestParam(name = "id")Integer id) 
 	{
-		return cartodtoService.map(userService.getById(id).get().getCar().get(id));
+		return cartodtoService.map(userService.getById(id).get().getCar().get(idcar));
 		
 	}
 	@PutMapping("/{idcar}")
