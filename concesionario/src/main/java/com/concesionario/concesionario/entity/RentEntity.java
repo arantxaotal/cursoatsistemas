@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @Table(name="Rent")
@@ -19,8 +21,10 @@ public class RentEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonManagedReference
 	private UserEntity user; 
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonManagedReference
 	private CarEntity car;
 	private LocalTime initdate;
 	private LocalTime enddate;

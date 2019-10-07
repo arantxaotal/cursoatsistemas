@@ -4,7 +4,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,29 +32,27 @@ import com.concesionario.concesionario.service.mapper.UsertoDto;
 @RestController
 @RequestMapping("/car/{id}/user")
 public class CarUserController {
-	@Autowired private CarService carService;
+	@Autowired private UserService userService;
 	@Autowired private MapperService<UserEntity, UserDto> usertodtoService;
 	@Autowired private MapperService<UserDto, UserEntity> dtotouserService;
 	@PostMapping
-	public void save(@PathVariable("id") Integer id,@RequestBody @Valid UserDto userdto)
+	public UserDto save(@PathVariable("id") Integer id,@RequestBody @Valid UserDto userdto)
 	{
-		carService.getById(id).get().setUser(dtotouserService.map(userdto));
+		return usertodtoService.map(userService.saveusercar(dtotouserService.map(userdto), id)); 
 	}
 	@GetMapping
-	public UserDto getAll(@PathVariable("id") Integer id,@RequestParam(name="page",required=false,defaultValue="0")Pageable page,
-			@RequestParam(name="size",required=false,defaultValue="15")Integer size)
+	public UserDto getAll(@PathVariable("id") Integer id)
 	{	
-		return usertodtoService.map(carService.getById(id).get().getUser());
-	}
-	@PutMapping
-	public void update(@PathVariable("id") Integer id,@RequestBody UserDto userdto)
+		return usertodtoService.map(userService.getusercar(id));
+	}	
+	@PutMapping("/{iduser}")
+	public void update(@PathVariable("id") Integer id,@PathVariable("iduser") Integer iduser,@RequestBody UserDto userdto)
 	{
-		carService.getById(id).get().setUser(dtotouserService.map(userdto));
-		
+		userService.updateusercar(dtotouserService.map(userdto), id, iduser);
 	}
-	@DeleteMapping
-	public void deleteById(@PathVariable("id")Integer id)
+	@DeleteMapping("/{iduser}")
+	public void deleteById(@PathVariable("id")Integer id,@PathVariable("iduser")Integer iduser)
 	{
-		carService.getById(id).get().setUser(new UserEntity());
+		userService.deleteusercar(id, iduser);
 	}
 }

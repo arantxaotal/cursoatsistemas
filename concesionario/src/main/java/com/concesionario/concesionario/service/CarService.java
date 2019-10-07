@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.concesionario.concesionario.entity.CarEntity;
 import com.concesionario.concesionario.entity.RentEntity;
+import com.concesionario.concesionario.entity.UserEntity;
 
 public interface CarService {
 	
@@ -17,7 +18,16 @@ public interface CarService {
 	public void update(CarEntity car);
 	public void deleteById(Integer id);
 	public double getallbenefits(Integer id);
-	public RentEntity getonerent(Integer idrent, Integer id);
-	
+	//RENT-CAR CONTROLLER
+	CarEntity savecarrent(CarEntity car, Integer idrent);
+	CarEntity updatecarrent(CarEntity car, Integer idcar, Integer idrent);
+	public void deletecarrent(Integer idrent,Integer idcar);
+	CarEntity getcarrent(Integer idrent);	
+	//USER-CAR CONTROLLER
+	CarEntity savecaruser(CarEntity car, Integer iduser);
+	CarEntity updatecaruser(CarEntity car, Integer idcar, Integer iduser);
+	public void deletecaruser(Integer iduser,Integer idcar);
+	CarEntity getcaruser(Integer iduser,Integer idcar);	
+	Page<CarEntity> getallcaruser(Pageable page,Integer iduser);
 
 }

@@ -36,25 +36,26 @@ public class RentCarController {
 	@Autowired private MapperService<CarEntity, CarDto> cartodtoService;
 	@Autowired private MapperService<CarDto, CarEntity> dtotocarService;
 	@Autowired private RentService rentService;
+	@Autowired private CarService carservice;
 	@PostMapping
-	public void save(@PathVariable("id") Integer id,@RequestBody @Valid CarDto cardto)
+	public CarDto save(@PathVariable("id") Integer id,@RequestBody @Valid CarDto cardto)
 	{
-		rentService.getById(id).get().setCar(dtotocarService.map(cardto));
+		return cartodtoService.map(carservice.savecarrent(dtotocarService.map(cardto), id));
 	}
 	@GetMapping
 	public CarDto getAll(@PathVariable("id")Integer id)
 	{	
 	
-		return cartodtoService.map(rentService.getById(id).get().getCar());
+		return cartodtoService.map(carservice.getcarrent(id));
 	}	
-	@PutMapping
-	public void update(@PathVariable("id") Integer id,@RequestBody CarDto cardto)
+	@PutMapping("/{idcar}")
+	public void update(@PathVariable("id") Integer id,@PathVariable("id") Integer idcar,@RequestBody CarDto cardto)
 	{
-		rentService.getById(id).get().setCar(dtotocarService.map(cardto));
+		carservice.updatecarrent(dtotocarService.map(cardto), idcar, id);
 	}
-	@DeleteMapping
-	public void deleteById(@PathVariable("id")Integer id)
+	@DeleteMapping("/{idcar}")
+	public void deleteById(@PathVariable("id")Integer id,@PathVariable("id")Integer idcar)
 	{
-		rentService.getById(id).get().setCar(new CarEntity());
+		carservice.deletecarrent(id, idcar);
 	}
 }

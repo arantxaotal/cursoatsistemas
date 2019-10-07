@@ -34,24 +34,23 @@ public class RentUserController {
 	@Autowired private MapperService<UserDto, UserEntity> dtotouserService;
 	@Autowired private RentService rentService;
 	@PostMapping
-	public void save(@PathVariable("id") Integer id,@RequestBody @Valid UserDto userdto)
+	public UserDto save(@PathVariable("id") Integer id,@RequestBody @Valid UserDto userdto)
 	{
-		rentService.getById(id).get().setUser(dtotouserService.map(userdto));
+		return usertodtoService.map(userService.saveuserrent(dtotouserService.map(userdto), id));
 	}
 	@GetMapping
 	public UserDto getAll(@PathVariable("id") Integer id)
 	{	
-		return usertodtoService.map(rentService.getById(id).get().getUser());
+		return usertodtoService.map(userService.getuserrent(id));
 	}	
-	@PutMapping
-	public void update(@PathVariable("id") Integer id,@RequestBody UserDto userDto)
+	@PutMapping("/{iduser}")
+	public void update(@PathVariable("id") Integer id,@PathVariable("iduser")Integer iduser,@RequestBody UserDto userDto)
 	{
-		rentService.getById(id).get().setUser(dtotouserService.map(userDto));
-		
+		userService.updateuserrent(dtotouserService.map(userDto), id,iduser );
 	}
-	@DeleteMapping
-	public void deleteById(@PathVariable("id")Integer id)
+	@DeleteMapping("/{iduser}")
+	public void deleteById(@PathVariable("id")Integer id,@PathVariable("iduser")Integer iduser)
 	{
-		rentService.getById(id).get().setUser(new UserEntity());
+		userService.deleteuserrent(id, iduser);
 	}
 }

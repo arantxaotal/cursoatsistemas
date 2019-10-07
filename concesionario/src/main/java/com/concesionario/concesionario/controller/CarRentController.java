@@ -9,7 +9,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,33 +50,26 @@ public class CarRentController {
 		return renttodtoService.map(rentService.saverentcar(dtotorentService.map(rentdto),id));
 	}
 	@GetMapping
-	public List<RentDto> getAll(@PathVariable("id") Integer id)
+	public Page<RentDto> getAll(@PathVariable("id") Integer id)
 	{	
-		List<RentDto> rentlistDtos = new ArrayList<RentDto>();
-		int n =carService.getById(id).get().getRent().size();
-		for (int i = 0; i < n; i++) {
-			rentlistDtos.add(renttodtoService.map(carService.getById(id).get().getRent().get(i)));
-		}
-		return rentlistDtos;
+		Pageable rentpage = PageRequest.of(0, 10, Sort.Direction.ASC, "brand");
+		
+		return rentService.getallrentcar(rentpage, id).map(renttodtoService::map);
 		
 	}
 	@GetMapping("/{idrent}")
 	public RentDto getOne(@PathVariable("idrent") Integer idrent,@PathVariable("id")Integer id) 
 	{
-		return renttodtoService.map(carService.getonerent(idrent,id));
-
+		return renttodtoService.map(rentService.getrentcar(id, idrent));
 	}
 	@PutMapping("/{idrent}")
-	public void update(@PathVariable("id") Integer id,@PathVariable("idrent")Integer idrent,@RequestBody RentDto rentdto)
+	public RentDto update(@PathVariable("id") Integer id,@PathVariable("idrent")Integer idrent,@RequestBody RentDto rentdto)
 	{
-		RentEntity rentEntity= dtotorentService.map(rentdto);
-		carService.getById(id).get().getRent().remove(idrent);
-		carService.getById(id).get().getRent().add(rentEntity);
-		
+		return renttodtoService.map(rentService.updaterentcar(dtotorentService.map(rentdto), id, idrent));
 	}
 	@DeleteMapping("/{idrent}")
 	public void deleteById(@PathVariable("id") Integer id,@PathVariable("idrent")Integer idrent)
 	{
-		carService.getById(id).get().getRent().remove(idrent);
+		rentService.deleterentcar(id, idrent);
 	}
 }

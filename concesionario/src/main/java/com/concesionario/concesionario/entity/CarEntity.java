@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 
 @Entity
@@ -23,8 +26,10 @@ public class CarEntity {
 	private String model;
 	private String brand;
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonManagedReference
 	private UserEntity user;
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "car")
+	@JsonBackReference
 	private List<RentEntity> rent=new ArrayList<RentEntity>();
 
 	/**
