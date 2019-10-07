@@ -49,6 +49,7 @@ public class UserRentController {
 	@GetMapping("/{idrent}")
 	public RentDto getOne(@PathVariable("idrent") Integer idrent,@RequestParam(name = "id")Integer id) 
 	{
+		Integer idnewInteger=idrent--;
 		return renttodtoService.map(rentService.getrentuser(id, idrent));
 	}
 	@PutMapping("/{idrent}")
