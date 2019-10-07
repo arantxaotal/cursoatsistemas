@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 
@@ -23,21 +25,23 @@ public class UserEntity {
 	private Integer id;
 	private String name;
 	@OneToMany(fetch=FetchType.LAZY,mappedBy = "user")
-	@JsonBackReference
+	@JsonIgnore
 	private List<CarEntity> car=new ArrayList<CarEntity>();
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
-	@JsonBackReference
+	@JsonIgnore
 	private List<RentEntity> rent=new ArrayList<RentEntity>();
 
 	/**
 	 * @return the rent
 	 */
+	@JsonIgnore
 	public List<RentEntity> getRent() {
 		return rent;
 	}
 	/**
 	 * @param rent the rent to set
 	 */
+	@JsonProperty
 	public void setRent(List<RentEntity> rent) {
 		this.rent = rent;
 	}
@@ -68,12 +72,14 @@ public class UserEntity {
 	/**
 	 * @return the car
 	 */
+	@JsonIgnore
 	public List<CarEntity> getCar() {
 		return car;
 	}
 	/**
 	 * @param car the car to set
 	 */
+	@JsonProperty
 	public void setCar(List<CarEntity> car) {
 		 this.car=car;
 	}
