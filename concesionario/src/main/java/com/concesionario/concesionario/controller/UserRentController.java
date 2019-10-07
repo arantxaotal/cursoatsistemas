@@ -43,8 +43,8 @@ public class UserRentController {
 	}
 	@GetMapping
 	public Page<RentDto> getAll(@PathVariable("id") Integer id)
-	{	Pageable page=  PageRequest.of(0, 10, Sort.Direction.ASC, "brand");
-		return rentService.getallrentuser(page, id).map(renttodtoService::map);
+	{	Pageable userpage=  PageRequest.of(0, 10, Sort.Direction.ASC, "name");
+		return rentService.getallrentuser(userpage, id).map(renttodtoService::map);
 	}	
 	@GetMapping("/{idrent}")
 	public RentDto getOne(@PathVariable("idrent") Integer idrent,@RequestParam(name = "id")Integer id) 

@@ -52,7 +52,7 @@ public class CarRentController {
 	@GetMapping
 	public Page<RentDto> getAll(@PathVariable("id") Integer id)
 	{	
-		Pageable rentpage = PageRequest.of(0, 10, Sort.Direction.ASC, "brand");
+		Pageable rentpage = PageRequest.of(0, 10, Sort.Direction.ASC, "price");
 		
 		return rentService.getallrentcar(rentpage, id).map(renttodtoService::map);
 		
