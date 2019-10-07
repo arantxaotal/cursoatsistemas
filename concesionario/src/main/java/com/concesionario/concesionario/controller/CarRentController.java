@@ -50,7 +50,7 @@ public class CarRentController {
 		return renttodtoService.map(rentService.saverentcar(dtotorentService.map(rentdto),id));
 	}
 	@GetMapping
-	public Page<RentDto> getAll(@PathVariable("id") Integer id)
+	public Page<RentDto> getAll(@PathVariable("id") Integer id) throws IllegalArgumentException
 	{	
 		Pageable rentpage = PageRequest.of(0, 10, Sort.Direction.ASC, "price");
 		
@@ -58,17 +58,17 @@ public class CarRentController {
 		
 	}
 	@GetMapping("/{idrent}")
-	public RentDto getOne(@PathVariable("idrent") Integer idrent,@PathVariable("id")Integer id) 
+	public RentDto getOne(@PathVariable("idrent") Integer idrent,@PathVariable("id")Integer id) throws NotFoundException
 	{
 		return renttodtoService.map(rentService.getrentcar(id, idrent));
 	}
 	@PutMapping("/{idrent}")
-	public RentDto update(@PathVariable("id") Integer id,@PathVariable("idrent")Integer idrent,@RequestBody RentDto rentdto)
+	public RentDto update(@PathVariable("id") Integer id,@PathVariable("idrent")Integer idrent,@RequestBody RentDto rentdto) throws NotFoundException
 	{
 		return renttodtoService.map(rentService.updaterentcar(dtotorentService.map(rentdto), id, idrent));
 	}
 	@DeleteMapping("/{idrent}")
-	public void deleteById(@PathVariable("id") Integer id,@PathVariable("idrent")Integer idrent)
+	public void deleteById(@PathVariable("id") Integer id,@PathVariable("idrent")Integer idrent) throws NotFoundException
 	{
 		rentService.deleterentcar(id, idrent);
 	}

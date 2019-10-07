@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.concesionario.concesionario.dto.RentDto;
 import com.concesionario.concesionario.entity.RentEntity;
 import com.concesionario.concesionario.entity.UserEntity;
+import com.concesionario.concesionario.exception.NotFoundException;
 import com.concesionario.concesionario.service.RentService;
 import com.concesionario.concesionario.service.UserService;
 import com.concesionario.concesionario.service.mapper.RenttoDto;
@@ -37,28 +38,27 @@ public class UserRentController {
 	@Autowired private MapperService<RentDto, RentEntity> dtotorentService;
 	@Autowired private UserService userService;
 	@PostMapping
-	public RentDto save(@PathVariable("id") Integer id,@RequestBody @Valid RentDto rentdto)
+	public RentDto save(@PathVariable("id") Integer id,@RequestBody @Valid RentDto rentdto) throws IllegalArgumentException
 	{
 		return renttodtoService.map(rentService.saverentuser(dtotorentService.map(rentdto), id));
 	}
 	@GetMapping
-	public Page<RentDto> getAll(@PathVariable("id") Integer id)
+	public Page<RentDto> getAll(@PathVariable("id") Integer id) throws NotFoundException
 	{	Pageable userpage=  PageRequest.of(0, 10, Sort.Direction.ASC, "name");
 		return rentService.getallrentuser(userpage, id).map(renttodtoService::map);
 	}	
 	@GetMapping("/{idrent}")
-	public RentDto getOne(@PathVariable("idrent") Integer idrent,@RequestParam(name = "id")Integer id) 
+	public RentDto getOne(@PathVariable("idrent") Integer idrent,@RequestParam(name = "id")Integer id)  throws NotFoundException
 	{
-		Integer idnewInteger=idrent--;
 		return renttodtoService.map(rentService.getrentuser(id, idrent));
 	}
 	@PutMapping("/{idrent}")
-	public void update(@PathVariable("id") Integer id,@PathVariable("idrent")Integer idrent,@RequestBody RentDto rentdto)
+	public void update(@PathVariable("id") Integer id,@PathVariable("idrent")Integer idrent,@RequestBody RentDto rentdto) throws NotFoundException
 	{	
 		rentService.updaterentuser(dtotorentService.map(rentdto), id, idrent);
 	}
 	@DeleteMapping("/{idrent}")
-	public void deleteById(@PathVariable("id")Integer id,@PathVariable("idrent")Integer idrent)
+	public void deleteById(@PathVariable("id")Integer id,@PathVariable("idrent")Integer idrent) throws NotFoundException
 	{
 		rentService.deleterentuser(id, idrent);
 	}

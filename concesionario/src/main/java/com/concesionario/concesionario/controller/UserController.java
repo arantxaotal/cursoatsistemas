@@ -21,6 +21,7 @@ import com.concesionario.concesionario.dto.RentDto;
 import com.concesionario.concesionario.dto.UserDto;
 import com.concesionario.concesionario.entity.RentEntity;
 import com.concesionario.concesionario.entity.UserEntity;
+import com.concesionario.concesionario.exception.NotFoundException;
 import com.concesionario.concesionario.service.RentService;
 import com.concesionario.concesionario.service.UserService;
 import com.concesionario.concesionario.service.mapper.DtotoUser;
@@ -37,7 +38,7 @@ public class UserController {
 	@Autowired private MapperService<UserDto, UserEntity> dtotouserService;
 	@PostMapping
 	
-	public void save(@RequestBody @Valid UserDto userdto)
+	public void save(@RequestBody @Valid UserDto userdto) throws IllegalArgumentException
 	{
 		UserEntity user= new UserEntity();
 		user= dtotouserService.map(userdto);
@@ -45,7 +46,7 @@ public class UserController {
 	}
 	@GetMapping
 	public Page<UserDto> getAll(@RequestParam(name="page",required=false,defaultValue="0")Pageable page,
-			@RequestParam(name="size",required=false,defaultValue="15")Integer size)
+			@RequestParam(name="size",required=false,defaultValue="15")Integer size) throws NotFoundException
 	{	
 		return userService.getAll(page).map(x-> usertodtoService.map(x));
 	}
@@ -55,7 +56,7 @@ public class UserController {
 		return usertodtoService.map(userService.getById(id).get());
 	}
 	@PutMapping
-	public void update(@PathVariable("id")Integer id,@RequestBody UserDto userdto)
+	public void update(@PathVariable("id")Integer id,@RequestBody UserDto userdto) throws NotFoundException
 	{
 		UserEntity userEntity=new UserEntity();
 		userEntity.setId(id);
@@ -63,7 +64,7 @@ public class UserController {
 		userService.update(userEntity);
 	}
 	@DeleteMapping
-	public void deleteById(@PathVariable("id")Integer id)
+	public void deleteById(@PathVariable("id")Integer id) throws NotFoundException
 	{
 		userService.deleteById(id);
 	}

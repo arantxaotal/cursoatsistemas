@@ -1,5 +1,6 @@
 package com.concesionario.concesionario.dto;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -10,11 +11,11 @@ public class RentDto {
 	private Integer id;
 	private UserEntity user; 
 	private CarEntity car;
-	private LocalTime initdate;
-	private LocalTime enddate;
+	private LocalDate initdate;
+	private LocalDate enddate;
 	private double price;
 	
-	public RentDto(Integer id,UserEntity user, CarEntity car, LocalTime initdate, LocalTime enddate, double price) {
+	public RentDto(Integer id,UserEntity user, CarEntity car, LocalDate initdate, LocalDate enddate, double price) {
 		this.id=id;
 		this.user = user;
 		this.car = car;
@@ -50,25 +51,25 @@ public class RentDto {
 	/**
 	 * @return the initdate
 	 */
-	public LocalTime getInitdate() {
+	public LocalDate getInitdate() {
 		return initdate;
 	}
 	/**
 	 * @param initdate the initdate to set
 	 */
-	public void setInitdate(LocalTime initdate) {
+	public void setInitdate(LocalDate initdate) {
 		this.initdate = initdate;
 	}
 	/**
 	 * @return the enddate
 	 */
-	public LocalTime getEnddate() {
+	public LocalDate getEnddate() {
 		return enddate;
 	}
 	/**
 	 * @param enddate the enddate to set
 	 */
-	public void setEnddate(LocalTime enddate) {
+	public void setEnddate(LocalDate enddate) {
 		this.enddate = enddate;
 	}
 	/**

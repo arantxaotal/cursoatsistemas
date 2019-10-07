@@ -42,7 +42,7 @@ public class RentController {
 	@Autowired private MapperService<RentDto, RentEntity> dtotorentService;
 	
 	@PostMapping
-	public void save(@RequestBody @Valid RentDto rentdto)
+	public void save(@RequestBody @Valid RentDto rentdto) throws IllegalArgumentException
 	{
 		RentEntity rent= new RentEntity();
 		rent= dtotorentService.map(rentdto);
@@ -50,17 +50,17 @@ public class RentController {
 	}
 	@GetMapping
 	public Page<RentDto> getAll(@RequestParam(name="page",required=false,defaultValue="0")Pageable page,
-			@RequestParam(name="size",required=false,defaultValue="15")Integer size)
+			@RequestParam(name="size",required=false,defaultValue="15")Integer size) throws NotFoundException
 	{	
 		return rentService.getAll(page).map(x-> renttodtoService.map(x));
 	}
 	@GetMapping("/{id}")
-	public RentDto getRent(@PathVariable("id")Integer id)
+	public RentDto getRent(@PathVariable("id")Integer id) throws NotFoundException
 	{
 		return renttodtoService.map(rentService.getById(id).get());
 	}
 	@PutMapping("/{id}")
-	public void update(@PathVariable("id") Integer id,@RequestBody RentDto rentdto)
+	public void update(@PathVariable("id") Integer id,@RequestBody RentDto rentdto) throws NotFoundException
 	{
 
 		RentEntity rentEntity = new RentEntity();
@@ -69,9 +69,10 @@ public class RentController {
 		rentService.update(rentEntity);
 	}
 	@DeleteMapping
-	public void deleteById(@PathVariable("id")Integer id)
+	public void deleteById(@PathVariable("id")Integer id) throws NotFoundException
 	{
 		rentService.deleteById(id);
 	}
+
 	
 }

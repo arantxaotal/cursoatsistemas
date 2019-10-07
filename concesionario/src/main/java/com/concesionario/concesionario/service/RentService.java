@@ -1,5 +1,6 @@
 package com.concesionario.concesionario.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,4 +28,6 @@ public interface RentService {
 	public void deleterentuser(Integer iduser, Integer idrent);
 	public RentEntity getrentuser(Integer iduser,Integer idrent);
 	public Page<RentEntity> getallrentuser(Pageable page,Integer iduser);
+	public Optional<Double> benefits(Integer idcar, LocalDate initDate, LocalDate endDate);
+	Page<RentEntity> getrentsuserdate(Integer iduser, LocalDate init, LocalDate end);
 }

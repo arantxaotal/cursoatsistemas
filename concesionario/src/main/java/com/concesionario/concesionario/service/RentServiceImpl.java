@@ -1,10 +1,13 @@
 package com.concesionario.concesionario.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -85,6 +88,16 @@ public class RentServiceImpl implements RentService {
 		CarEntity carEntity=carRepository.findById(idcar).get();
 		return rentrepository.findByCar(page,carEntity);
 	}
+	@Override
+	public Optional<Double> benefits(Integer idcar, LocalDate initDate, LocalDate endDate){
+		CarEntity car = carRepository.findById(idcar).get();
+		List<RentEntity> rentEntities = car.getRent();
+		Double benefits=0.0;
+		for(RentEntity entity : rentEntities) 
+			if(entity.getInitdate().isAfter(initDate) && entity.getEnddate().isBefore(endDate))
+				benefits += entity.getPrice();			
+		return Optional.of(benefits);
+	}
 		
 //USER-RENT CONTROLLER
 	@Override
@@ -121,6 +134,20 @@ public class RentServiceImpl implements RentService {
 		UserEntity userEntity = userRepository.findById(iduser).get();
 		return rentrepository.findByUser(page, userEntity);
 	}
+	@Override
+	public Page<RentEntity> getrentsuserdate(Integer iduser, LocalDate init, LocalDate end){
+		UserEntity user = userRepository.findById(iduser).get();
+		List<RentEntity> entities = user.getRent();
+		List<RentEntity> result= new ArrayList<RentEntity>();
+		for (int i = 0; i < entities.size(); i++) {
+			if(entities.get(i).getInitdate().isAfter(init) && entities.get(i).getEnddate().isBefore(end))
+			{
+				result.add(entities.get(i));
+			}
+		}
+		return new PageImpl<>(result);
+	}
+
 	
 
 }

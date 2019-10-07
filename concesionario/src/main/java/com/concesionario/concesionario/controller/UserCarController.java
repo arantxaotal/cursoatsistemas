@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.concesionario.concesionario.dto.CarDto;
 import com.concesionario.concesionario.entity.CarEntity;
+import com.concesionario.concesionario.exception.NotFoundException;
 import com.concesionario.concesionario.service.CarService;
 import com.concesionario.concesionario.service.UserService;
 import com.concesionario.concesionario.service.mapper.MapperService;
@@ -32,31 +33,31 @@ public class UserCarController {
 	@Autowired private MapperService<CarDto, CarEntity> dtotocarService;
 	@Autowired private UserService userService;
 	@PostMapping
-	public CarDto save(@PathVariable("id") Integer id,@RequestBody @Valid CarDto cardto)
+	public CarDto save(@PathVariable("id") Integer id,@RequestBody @Valid CarDto cardto) throws IllegalArgumentException
 	{
 		return cartodtoService.map(carService.savecaruser(dtotocarService.map(cardto), id)); 
 		
 	}
 	@GetMapping
-	public Page<CarDto> getAll(@PathVariable("id") Integer id)
+	public Page<CarDto> getAll(@PathVariable("id") Integer id) throws NotFoundException
 	{	
 		Pageable carpage = PageRequest.of(0, 10, Sort.Direction.ASC, "brand");
 		
 		return carService.getallcaruser(carpage, id).map(cartodtoService::map);
 	}	
 	@GetMapping("/{idcar}")
-	public CarDto getOne(@PathVariable("idcar") Integer idcar,@PathVariable("id")Integer id) 
+	public CarDto getOne(@PathVariable("idcar") Integer idcar,@PathVariable("id")Integer id) throws NotFoundException
 	{
 		return cartodtoService.map(carService.getcaruser(id, idcar));
 		
 	}
 	@PutMapping("/{idcar}")
-	public CarDto update(@PathVariable("id") Integer id,@PathVariable("idcar")Integer idcar,@RequestBody CarDto cardto)
+	public CarDto update(@PathVariable("id") Integer id,@PathVariable("idcar")Integer idcar,@RequestBody CarDto cardto) throws NotFoundException
 	{
 		return cartodtoService.map(carService.updatecaruser(dtotocarService.map(cardto),idcar, id));
 	}
 	@DeleteMapping("/{idcar}")
-	public void deleteById(@PathVariable("id")Integer id,@PathVariable("idcar")Integer idcar)
+	public void deleteById(@PathVariable("id")Integer id,@PathVariable("idcar")Integer idcar) throws NotFoundException
 	{
 		carService.deletecaruser(id, idcar);
 	}

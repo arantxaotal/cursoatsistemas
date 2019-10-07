@@ -32,7 +32,7 @@ public class CarController {
 	@Autowired private CarttoDto cartodtoService;
 	@Autowired private DtotoCar dtotocarService;
 	@PostMapping
-	public void save(@RequestBody @Valid CarDto cardto)
+	public void save(@RequestBody @Valid CarDto cardto) throws IllegalArgumentException
 	{
 		CarEntity car= new CarEntity();
 		car= dtotocarService.map(cardto);
@@ -40,7 +40,7 @@ public class CarController {
 	}
 	@GetMapping
 	public Page<CarDto> getAll(@RequestParam(name="page",required=false,defaultValue="0")Pageable page,
-			@RequestParam(name="size",required=false,defaultValue="15")Integer size)
+			@RequestParam(name="size",required=false,defaultValue="15")Integer size) throws NotFoundException
 	{	
 		return carService.getAll(page).map(x-> cartodtoService.map(x));
 	}	
@@ -53,7 +53,7 @@ public class CarController {
 		
 	}
 	@PutMapping
-	public void update(@PathVariable("id") Integer id,@RequestBody CarDto cardto)
+	public void update(@PathVariable("id") Integer id,@RequestBody CarDto cardto) throws NotFoundException
 	{
 		CarEntity car= new CarEntity();
 		car.setId(id);
@@ -61,7 +61,7 @@ public class CarController {
 		carService.update(car);
 	}
 	@DeleteMapping("/{id}")
-	public void deleteById(@PathVariable("id")Integer id)
+	public void deleteById(@PathVariable("id")Integer id) throws NotFoundException
 	{
 		carService.deleteById(id);
 	}
